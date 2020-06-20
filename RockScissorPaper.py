@@ -1,8 +1,8 @@
 from random import randint
-from time import sleep
+from time import sleep, strftime
+from os import getlogin
  
 # ASCII ART
-
 welcome = """
 
  =====================================================================
@@ -44,6 +44,14 @@ paper ="""
   ---.__________)
 """ 
 
+# Global Variable
+win = 0
+draw = 0
+lose = 0
+playingTime = 0
+getPcName = getlogin()
+getTime = strftime("%c")
+
 # User Guide
 userGuide ="""  
        +------------------------------------------------+
@@ -55,18 +63,13 @@ userGuide ="""
        +------------------------------------------------+
 
 """
+
 print(welcome)
 print(userGuide)
 
 # Asking user to play or not
 startMenu = input(" $ SIAP UNTUK BERMAIN GAME [Y/T]? ").lower()
 print("")
-
-# Score
-win = 0
-draw = 0
-lose = 0
-playingTime = 0
 
 if startMenu == "y":
   while True:
@@ -106,7 +109,15 @@ if startMenu == "y":
  | Total Bermain :{:>8} |
  +=========================+""".format(draw,win,lose,playingTime))
       confirm = input("\n $ Yakin keluar? Tekan Y untuk keluar ENTER untuk lanjut: ").lower()
-      if confirm == "y": 
+      if confirm == "y":
+        with open("Log.txt", "a") as f:
+          print("PC-NAME: {} - {}".format(getPcName,getTime), file=f)
+          print(""" +==========INFO===========+
+ | Total Seri    :{:>8} |
+ | Total Menang  :{:>8} |
+ | Total Kalah   :{:>8} |
+ | Total Bermain :{:>8} |
+ +=========================+\n""".format(draw,win,lose,playingTime), file=f)
         print("\n BYE! :)")
         sleep(1.5) 
         break
